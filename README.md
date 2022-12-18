@@ -1,7 +1,7 @@
 # ImGui-Render
 Just some rendering stuff in imgui
 
-I will name the variables normally soon
+--I will name the variables normally soon--
 
 I will try to add more things than just a line lol
 
