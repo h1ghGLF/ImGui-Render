@@ -116,7 +116,11 @@ int main(int, char**)
         ImGui::NewFrame();
 
         {
-            //frame rate wnd
+            const char* items[] = { "Line", "Rectangle", "Rectangle Filled" };
+            //, "Circle", "Circle Filled", "Triangle", "Triangle Filled" 
+            static int tab = 0;
+
+
             ImGui::SetNextWindowSize(ImVec2(400, 75));
             ImGui::SetNextWindowPos(ImVec2(5, 5));
 
@@ -127,7 +131,7 @@ int main(int, char**)
 
             ImGui::End();
 
-            //color wnd
+
             ImGui::SetNextWindowSize(ImVec2(400, 400));
             ImGui::SetNextWindowPos(ImVec2(5, 85));
 
@@ -138,30 +142,46 @@ int main(int, char**)
 
             ImGui::End();
 
-            //thingz wnd
+
             ImGui::SetNextWindowSize(ImVec2(400, 500));
             ImGui::SetNextWindowPos(ImVec2(5, 490));
 
             ImGui::Begin("Line Stuff", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
             ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
-            ImGui::ColorPicker3("Line Color", (float*)&line_color);
-            ImGui::SliderFloat("Line Thickness", &line_thickness, 1, 10);
-            ImGui::SliderFloat("Pos X 1", &line_x_pos1, -1000, 1000);
-            ImGui::SliderFloat("Pos Y 1", &line_y_pos1, -1000, 1000);
-            ImGui::SliderFloat("Pos X 2", &line_x_pos2, -1000, 1000);
-            ImGui::SliderFloat("Pos Y 2", &line_y_pos2, -1000, 1000);
+            ImGui::Combo("Shape", &tab, items, IM_ARRAYSIZE(items));
 
-            ImGui::End();
+            if (tab == 0) {
+                ImGui::ColorPicker3("Line Color", (float*)&shapes::line::line_color);
+                ImGui::SliderFloat("Line Thickness", &shapes::line::line_thickness, 1, 10);
+                ImGui::SliderFloat("Pos X 1", &shapes::line::line_x_pos1, -1000, 2000);
+                ImGui::SliderFloat("Pos Y 1", &shapes::line::line_y_pos1, -1000, 1000);
+                ImGui::SliderFloat("Pos X 2", &shapes::line::line_x_pos2, -1000, 2000);
+                ImGui::SliderFloat("Pos Y 2", &shapes::line::line_y_pos2, -1000, 1000);
 
-            //rendering thingz
-            ImGui::SetNextWindowSize(ImVec2(1505, 985));
-            ImGui::SetNextWindowPos(ImVec2(410, 5));
+                ImGui::GetBackgroundDrawList()->AddLine(ImVec2(shapes::line::line_x_pos1, shapes::line::line_y_pos1), ImVec2(shapes::line::line_x_pos2, shapes::line::line_y_pos2), ImGui::ColorConvertFloat4ToU32(shapes::line::line_color), shapes::line::line_thickness);
+            }
+            else if (tab == 1) {
+                ImGui::ColorPicker3("Rectangle Color", (float*)&shapes::rect::rect_color);
+                ImGui::SliderFloat("Rectangle Thickness", &shapes::rect::rect_thickness, 1, 10);
+                ImGui::SliderFloat("Rectangle Rounding", &shapes::rect::rect_rounding, 0, 10);
+                ImGui::SliderFloat("Pos X 1", &shapes::rect::rect_x_pos1, -1000, 2000);
+                ImGui::SliderFloat("Pos Y 1", &shapes::rect::rect_y_pos1, -1000, 1000);
+                ImGui::SliderFloat("Pos X 2", &shapes::rect::rect_x_pos2, -1000, 2000);
+                ImGui::SliderFloat("Pos Y 2", &shapes::rect::rect_y_pos2, -1000, 1000);
 
-            ImGui::Begin("Rendering", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
-            ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
+                ImGui::GetBackgroundDrawList()->AddRect(ImVec2(shapes::rect::rect_x_pos1, shapes::rect::rect_y_pos1), ImVec2(shapes::rect::rect_x_pos2, shapes::rect::rect_y_pos2), ImGui::ColorConvertFloat4ToU32(shapes::rect::rect_color), shapes::rect::rect_rounding, 0, shapes::rect::rect_thickness);
+            }
+            else if (tab == 2) {
+                ImGui::ColorPicker3("Rectangle Color", (float*)&shapes::rect_filled::rect_filled_color);
+                ImGui::SliderFloat("Rectangle Rounding", &shapes::rect_filled::rect_filled_rounding, 0, 10);
+                ImGui::SliderFloat("Pos X 1", &shapes::rect_filled::rect_filled_x_pos1, -1000, 2000);
+                ImGui::SliderFloat("Pos Y 1", &shapes::rect_filled::rect_filled_y_pos1, -1000, 1000);
+                ImGui::SliderFloat("Pos X 2", &shapes::rect_filled::rect_filled_x_pos2, -1000, 2000);
+                ImGui::SliderFloat("Pos Y 2", &shapes::rect_filled::rect_filled_y_pos2, -1000, 1000);
 
-            ImGui::GetWindowDrawList()->AddLine(ImVec2(line_x_pos1, line_y_pos1), ImVec2(line_x_pos2, line_y_pos2), ImGui::ColorConvertFloat4ToU32(line_color), line_thickness);
+                ImGui::GetBackgroundDrawList()->AddRectFilled(ImVec2(shapes::rect_filled::rect_filled_x_pos1, shapes::rect_filled::rect_filled_y_pos1), ImVec2(shapes::rect_filled::rect_filled_x_pos2, shapes::rect_filled::rect_filled_y_pos2), ImGui::ColorConvertFloat4ToU32(shapes::rect_filled::rect_filled_color), shapes::rect_filled::rect_filled_rounding, 0);
+            }
 
             ImGui::End();
         }
