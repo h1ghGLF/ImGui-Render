@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "variables.h"
+#include <iostream>
 
 static LPDIRECT3D9              g_pD3D = NULL;
 static LPDIRECT3DDEVICE9        g_pd3dDevice = NULL;
@@ -23,7 +24,7 @@ int main(int, char**)
     ::RegisterClassExW(&wc);
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX9 Example", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
-    ShowWindow(::GetConsoleWindow(), SW_HIDE);
+    ShowWindow(::GetConsoleWindow(), SW_SHOW);
 
     if (!CreateDeviceD3D(hwnd))
     {
@@ -50,34 +51,35 @@ int main(int, char**)
     style->ItemSpacing = ImVec2(12, 8);
     style->ItemInnerSpacing = ImVec2(8, 6);
     style->IndentSpacing = 25.0f;
-    style->ScrollbarSize = 15.0f;
+    style->ScrollbarSize = 10.0f;
     style->ScrollbarRounding = 9.0f;
     style->GrabMinSize = 5.0f;
     style->GrabRounding = 3.0f;
+    style->WindowTitleAlign = ImVec2(0.5f, 0.5f);
 
-    style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
+    style->Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
     style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-    style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-    style->Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+    style->Colors[ImGuiCol_WindowBg] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
+    style->Colors[ImGuiCol_PopupBg] = ImVec4(0.15f, 0.15f, 0.15f, 1.00f);
     style->Colors[ImGuiCol_Border] = ImVec4(0.3f, 0.3f, 0.3f, 1.0f);
     style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
-    style->Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-    style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-    style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-    style->Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-    style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
-    style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-    style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-    style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-    style->Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-    style->Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-    style->Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-    style->Colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+    style->Colors[ImGuiCol_FrameBg] = ImVec4(0.3f, 0.3f, 0.3f, 1.00f);
+    style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.3f, 0.3f, 0.3f, 1.00f);
+    style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.35f, 0.35f, 0.35f, 1.00f);
+    style->Colors[ImGuiCol_TitleBg] = ImVec4(0.30f, 0.30f, 0.30f, 1.00f);
+    style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.30f, 0.30f, 0.30f, 1.00f);
+    style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.30f, 0.30f, 0.30f, 1.00f);
+    style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.1f, 0.1f, 1.00f);
+    style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.1f, 0.1f, 0.00f);
+    style->Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
+    style->Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
+    style->Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
+    style->Colors[ImGuiCol_CheckMark] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
     style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
     style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-    style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-    style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-    style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.1f, 0.1f, 1.00f);
+    style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.1f, 0.1f, 0.1f, 1.00f);
+    style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.15f, 0.15f, 0.15f, 1.00f);
     style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
     style->Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
     style->Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
@@ -95,7 +97,7 @@ int main(int, char**)
 
     io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\tahoma.ttf", 18.0f);
 
-    ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
+    ImVec4 clear_color = ImVec4(0.1f, 0.1f, 0.1f, 1.00f);
 
     bool done = false;
     while (!done)
@@ -116,8 +118,7 @@ int main(int, char**)
         ImGui::NewFrame();
 
         {
-            const char* items[] = { "Line", "Rectangle", "Rectangle Filled" };
-            //, "Circle", "Circle Filled", "Triangle", "Triangle Filled" 
+            const char* items[] = { "Line", "Rectangle", "Rectangle Filled", "Circle", "Circle Filled", "Triangle", "Triangle Filled" };
             static int tab = 0;
 
 
@@ -138,7 +139,7 @@ int main(int, char**)
             ImGui::Begin("Color", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
             ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
-            ImGui::ColorPicker3("BackGround Color", (float*)&clear_color);
+            ImGui::ColorPicker3("Background Color", (float*)&clear_color);
 
             ImGui::End();
 
@@ -146,7 +147,7 @@ int main(int, char**)
             ImGui::SetNextWindowSize(ImVec2(400, 500));
             ImGui::SetNextWindowPos(ImVec2(5, 490));
 
-            ImGui::Begin("Line Stuff", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
+            ImGui::Begin("Shape Rendering", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
             ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
             ImGui::Combo("Shape", &tab, items, IM_ARRAYSIZE(items));
@@ -173,14 +174,23 @@ int main(int, char**)
                 ImGui::GetBackgroundDrawList()->AddRect(ImVec2(shapes::rect::rect_x_pos1, shapes::rect::rect_y_pos1), ImVec2(shapes::rect::rect_x_pos2, shapes::rect::rect_y_pos2), ImGui::ColorConvertFloat4ToU32(shapes::rect::rect_color), shapes::rect::rect_rounding, 0, shapes::rect::rect_thickness);
             }
             else if (tab == 2) {
-                ImGui::ColorPicker3("Rectangle Color", (float*)&shapes::rect_filled::rect_filled_color);
-                ImGui::SliderFloat("Rectangle Rounding", &shapes::rect_filled::rect_filled_rounding, 0, 10);
+                ImGui::ColorPicker3("Rectangle Filled Color", (float*)&shapes::rect_filled::rect_filled_color);
+                ImGui::SliderFloat("Rectangle Filled Rounding", &shapes::rect_filled::rect_filled_rounding, 0, 10);
                 ImGui::SliderFloat("Pos X 1", &shapes::rect_filled::rect_filled_x_pos1, -1000, 2000);
                 ImGui::SliderFloat("Pos Y 1", &shapes::rect_filled::rect_filled_y_pos1, -1000, 1000);
                 ImGui::SliderFloat("Pos X 2", &shapes::rect_filled::rect_filled_x_pos2, -1000, 2000);
                 ImGui::SliderFloat("Pos Y 2", &shapes::rect_filled::rect_filled_y_pos2, -1000, 1000);
 
                 ImGui::GetBackgroundDrawList()->AddRectFilled(ImVec2(shapes::rect_filled::rect_filled_x_pos1, shapes::rect_filled::rect_filled_y_pos1), ImVec2(shapes::rect_filled::rect_filled_x_pos2, shapes::rect_filled::rect_filled_y_pos2), ImGui::ColorConvertFloat4ToU32(shapes::rect_filled::rect_filled_color), shapes::rect_filled::rect_filled_rounding, 0);
+            }
+            else if (tab == 3) {
+                ImGui::ColorPicker3("Circle Color", (float*)&shapes::circle::circle_color);
+                ImGui::SliderFloat("Circle Thickness", &shapes::circle::circle_thickness, 1, 10);
+                ImGui::SliderFloat("Circle Radius", &shapes::circle::circle_radius, 1, 1000);
+                ImGui::SliderFloat("Center X", &shapes::circle::circle_center_x, -1000, 2000);
+                ImGui::SliderFloat("Center Y", &shapes::circle::circle_center_y, -1000, 1000);
+
+                ImGui::GetBackgroundDrawList()->AddCircle(ImVec2(shapes::circle::circle_center_x, shapes::circle::circle_center_y), shapes::circle::circle_radius, ImGui::ColorConvertFloat4ToU32(shapes::circle::circle_color), 0, shapes::circle::circle_thickness);
             }
 
             ImGui::End();

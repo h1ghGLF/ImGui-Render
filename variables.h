@@ -3,6 +3,7 @@
 namespace shapes {
 	namespace line {
 		ImVec4 line_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
 		float line_thickness;
 
 		float line_x_pos1;
@@ -14,6 +15,7 @@ namespace shapes {
 
 	namespace rect {
 		ImVec4 rect_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
 		float rect_thickness;
 		float rect_rounding;
 
@@ -26,6 +28,7 @@ namespace shapes {
 
 	namespace rect_filled {
 		ImVec4 rect_filled_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
 		float rect_filled_rounding;
 
 		float rect_filled_x_pos1;
@@ -33,5 +36,16 @@ namespace shapes {
 
 		float rect_filled_x_pos2;
 		float rect_filled_y_pos2;
+	}
+
+	namespace circle {
+		ImVec4 circle_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		
+		float circle_thickness;
+
+		float circle_center_x;
+		float circle_center_y;
+
+		float circle_radius;
 	}
 }
