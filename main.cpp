@@ -6,7 +6,7 @@
 #include <sstream>
 #include <cmath>
 
-#include "thingz.h"
+#include "variables.h"
 
 static LPDIRECT3D9              g_pD3D = NULL;
 static LPDIRECT3DDEVICE9        g_pd3dDevice = NULL;
@@ -145,12 +145,12 @@ int main(int, char**)
             ImGui::Begin("Line Stuff", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
             ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
-            ImGui::ColorPicker3("Line Color", (float*)&c);
-            ImGui::SliderFloat("Line Thickness", &g, 1, 90);
-            ImGui::SliderFloat("Pos X", &x, -1000, 1000);
-            ImGui::SliderFloat("Pos Y", &y, -1000, 1000);
-            ImGui::SliderFloat("Pos X1", &x2, -1000, 1000);
-            ImGui::SliderFloat("Pos Y1", &y2, -1000, 1000);
+            ImGui::ColorPicker3("Line Color", (float*)&line_color);
+            ImGui::SliderFloat("Line Thickness", &line_thickness, 1, 10);
+            ImGui::SliderFloat("Pos X 1", &line_x_pos1, -1000, 1000);
+            ImGui::SliderFloat("Pos Y 1", &line_y_pos1, -1000, 1000);
+            ImGui::SliderFloat("Pos X 2", &line_x_pos2, -1000, 1000);
+            ImGui::SliderFloat("Pos Y 2", &line_y_pos2, -1000, 1000);
 
             ImGui::End();
 
@@ -161,7 +161,7 @@ int main(int, char**)
             ImGui::Begin("Rendering", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
             ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
-            ImGui::GetWindowDrawList()->AddLine(ImVec2(y, x), ImVec2(x2, y2), ImGui::ColorConvertFloat4ToU32(c), g);
+            ImGui::GetWindowDrawList()->AddLine(ImVec2(line_x_pos1, line_y_pos1), ImVec2(line_x_pos2, line_y_pos2), ImGui::ColorConvertFloat4ToU32(line_color), line_thickness);
 
             ImGui::End();
         }
